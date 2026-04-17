@@ -12,34 +12,41 @@ struct Index {
       Column({ space: 0 }) {
         TopTimer({ timer: this.timer1, opponentTimer: this.timer2, score: this.score })
         Divider()
-          .color('#000')
-          .strokeWidth(2)
+          .color('#E0E0E0')
+          .strokeWidth(1)
         BottomTimer({ timer: this.timer2, opponentTimer: this.timer1, score: this.score })
       }
       .width('100%')
       .height('100%')
-      .backgroundColor('#fff')
-      Row({ space: 8 }) {
+      .backgroundColor('#F5F5F5')
+      Row({ space: 12 }) {
         Column({ space: 4 }) {
           Text(`P1: ${this.score.p1Win}`)
-            .fontSize(16)
-            .fontColor('#000')
+            .fontSize(14)
+            .fontWeight(500)
+            .fontColor('#1A1A1A')
           Text(`P2: ${this.score.p2Win}`)
-            .fontSize(16)
-            .fontColor('#000')
+            .fontSize(14)
+            .fontWeight(500)
+            .fontColor('#1A1A1A')
           Text(`Tie: ${this.score.ties}`)
-            .fontSize(16)
-            .fontColor('#000')
+            .fontSize(14)
+            .fontWeight(500)
+            .fontColor('#1A1A1A')
         }
         .alignItems(HorizontalAlign.Start)
         Button('Reset')
+          .height(32)
+          .fontSize(14)
+          .fontWeight(500)
+          .backgroundColor('#2196F3')
           .onClick(() => {
             this.timer1.reset()
             this.timer2.reset()
             this.score.reset()
           })
       }
-      .padding(8)
+      .padding({ left: 16, right: 16, bottom: 16 })
     }
     .width('100%')
     .height('100%')

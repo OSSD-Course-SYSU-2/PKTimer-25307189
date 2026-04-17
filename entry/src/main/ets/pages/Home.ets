@@ -62,6 +62,7 @@ export class Score {
   @Trace p2Win: number = 0
   @Trace ties: number = 0
   @Trace lastWinner: 'p1' | 'p2' | 'tie' | null = null
+  winnerTimer: number = -1
 
   updateWinner(winner: 'p1' | 'p2' | 'tie') {
     if (winner === 'p1') {
@@ -72,6 +73,9 @@ export class Score {
       this.ties++
     }
     this.lastWinner = winner
+    this.winnerTimer = setTimeout(() => {
+      this.lastWinner = null
+    }, 500)
   }
 
   reset() {
@@ -79,6 +83,7 @@ export class Score {
     this.p2Win = 0
     this.ties = 0
     this.lastWinner = null
+    clearTimeout(this.winnerTimer)
   }
 }
 
@@ -93,54 +98,69 @@ export function TopTimer($: TimerParams) {
   Stack() {
     Column() {
       Text('P1')
-        .fontSize(24)
-        .fontWeight(FontWeight.Bold)
-        .fontColor('#000')
+        .fontSize(32)
+        .fontWeight(700)
+        .fontColor('#FF6B6B')
+        .margin({ bottom: 8 })
       Text(formatTime($.timer.time))
-        .fontSize(24)
-        .fontWeight(FontWeight.Bold)
-        .fontColor('#000')
-      Column({ space: 4 }) {
-        Row({ space: 16 }) {
-          Text('MO3:')
-            .fontSize(16)
-            .fontColor('#000')
+        .fontSize(56)
+        .fontWeight(700)
+        .fontColor('#1A1A1A')
+        .fontFamily('monospace')
+        .letterSpacing(2)
+      Column({ space: 8 }) {
+        Row({ space: 12 }) {
+          Text('MO3')
+            .fontSize(14)
+            .fontWeight(600)
+            .fontColor('#757575')
             .alignSelf(ItemAlign.Center)
           Column() {
             Text(formatTime($.timer.mo3))
-              .fontSize(16)
-              .fontColor('#000')
+              .fontSize(18)
+              .fontWeight(600)
+              .fontColor('#1A1A1A')
+              .fontFamily('monospace')
           }
           .alignItems(HorizontalAlign.Start)
         }
         .alignItems(VerticalAlign.Center)
-        Row({ space: 16 }) {
-          Text('AO5:')
-            .fontSize(16)
-            .fontColor('#000')
+        .padding({ left: 12, right: 12, top: 8, bottom: 8 })
+        .backgroundColor('#F5F5F5')
+        .borderRadius(8)
+        Row({ space: 12 }) {
+          Text('AO5')
+            .fontSize(14)
+            .fontWeight(600)
+            .fontColor('#757575')
             .alignSelf(ItemAlign.Center)
           Column() {
             Text(formatTime($.timer.ao5))
-              .fontSize(16)
-              .fontColor('#000')
+              .fontSize(18)
+              .fontWeight(600)
+              .fontColor('#1A1A1A')
+              .fontFamily('monospace')
           }
           .alignItems(HorizontalAlign.Start)
         }
         .alignItems(VerticalAlign.Center)
+        .padding({ left: 12, right: 12, top: 8, bottom: 8 })
+        .backgroundColor('#F5F5F5')
+        .borderRadius(8)
       }
       .width('100%')
       .alignItems(HorizontalAlign.Start)
     }
     .width('100%')
     .alignItems(HorizontalAlign.Start)
-    .padding(8)
+    .padding(24)
     if ($.score.lastWinner === 'p1') {
-      Column({ space: 8 }) {
+      Column({ space: 12 }) {
         Text('🎉')
-          .fontSize(48)
+          .fontSize(64)
         Text('WINNER!')
-          .fontSize(32)
-          .fontWeight(FontWeight.Bold)
+          .fontSize(36)
+          .fontWeight(700)
           .fontColor('#FFD700')
       }
       .justifyContent(FlexAlign.Center)
@@ -148,7 +168,7 @@ export function TopTimer($: TimerParams) {
   }
   .width('100%')
   .height('50%')
-  .backgroundColor(Color.Transparent)
+  .backgroundColor(Color.White)
   .onClick(() => {
     if (!$.opponentTimer.isRunning && !$.timer.isRunning) {
       $.timer.start()
@@ -181,54 +201,69 @@ export function BottomTimer($: TimerParams) {
   Stack() {
     Column() {
       Text('P2')
-        .fontSize(24)
-        .fontWeight(FontWeight.Bold)
-        .fontColor('#000')
+        .fontSize(32)
+        .fontWeight(700)
+        .fontColor('#4ECDC4')
+        .margin({ bottom: 8 })
       Text(formatTime($.timer.time))
-        .fontSize(24)
-        .fontWeight(FontWeight.Bold)
-        .fontColor('#000')
-      Column({ space: 4 }) {
-        Row({ space: 16 }) {
-          Text('MO3:')
-            .fontSize(16)
-            .fontColor('#000')
+        .fontSize(56)
+        .fontWeight(700)
+        .fontColor('#1A1A1A')
+        .fontFamily('monospace')
+        .letterSpacing(2)
+      Column({ space: 8 }) {
+        Row({ space: 12 }) {
+          Text('MO3')
+            .fontSize(14)
+            .fontWeight(600)
+            .fontColor('#757575')
             .alignSelf(ItemAlign.Center)
           Column() {
             Text(formatTime($.timer.mo3))
-              .fontSize(16)
-              .fontColor('#000')
+              .fontSize(18)
+              .fontWeight(600)
+              .fontColor('#1A1A1A')
+              .fontFamily('monospace')
           }
           .alignItems(HorizontalAlign.Start)
         }
         .alignItems(VerticalAlign.Center)
-        Row({ space: 16 }) {
-          Text('AO5:')
-            .fontSize(16)
-            .fontColor('#000')
+        .padding({ left: 12, right: 12, top: 8, bottom: 8 })
+        .backgroundColor('#F5F5F5')
+        .borderRadius(8)
+        Row({ space: 12 }) {
+          Text('AO5')
+            .fontSize(14)
+            .fontWeight(600)
+            .fontColor('#757575')
             .alignSelf(ItemAlign.Center)
           Column() {
             Text(formatTime($.timer.ao5))
-              .fontSize(16)
-              .fontColor('#000')
+              .fontSize(18)
+              .fontWeight(600)
+              .fontColor('#1A1A1A')
+              .fontFamily('monospace')
           }
           .alignItems(HorizontalAlign.Start)
         }
         .alignItems(VerticalAlign.Center)
+        .padding({ left: 12, right: 12, top: 8, bottom: 8 })
+        .backgroundColor('#F5F5F5')
+        .borderRadius(8)
       }
       .width('100%')
       .alignItems(HorizontalAlign.Start)
     }
     .width('100%')
     .alignItems(HorizontalAlign.Start)
-    .padding(8)
+    .padding(24)
     if ($.score.lastWinner === 'p2') {
-      Column({ space: 8 }) {
+      Column({ space: 12 }) {
         Text('🎉')
-          .fontSize(48)
+          .fontSize(64)
         Text('WINNER!')
-          .fontSize(32)
-          .fontWeight(FontWeight.Bold)
+          .fontSize(36)
+          .fontWeight(700)
           .fontColor('#FFD700')
       }
       .justifyContent(FlexAlign.Center)
@@ -236,7 +271,7 @@ export function BottomTimer($: TimerParams) {
   }
   .width('100%')
   .height('50%')
-  .backgroundColor(Color.Transparent)
+  .backgroundColor(Color.White)
   .onClick(() => {
     if (!$.opponentTimer.isRunning && !$.timer.isRunning) {
       $.timer.start()
