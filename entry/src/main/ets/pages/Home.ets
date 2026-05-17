@@ -1,3 +1,5 @@
+import { AppConfig } from '../common/AppConfig'
+
 @ObservedV2
 export class Timer {
   @Trace time: number = 0
@@ -166,15 +168,15 @@ interface TimerParams {
 export function TopTimer($: TimerParams) {
   Stack() {
     Column() {
-      Text('P1')
+      Text(AppConfig.player1.name)
         .fontSize(32)
         .fontWeight(700)
-        .fontColor('#FF6B6B')
+        .fontColor(AppConfig.player1.color)
         .margin({ bottom: 8 })
       Text(formatTime($.timer.time))
         .fontSize(56)
         .fontWeight(700)
-        .fontColor('#1A1A1A')
+        .fontColor(AppConfig.getTheme().textPrimary)
         .fontFamily('monospace')
         .letterSpacing(2)
       Column({ space: 8 }) {
@@ -182,39 +184,39 @@ export function TopTimer($: TimerParams) {
           Text('MO3')
             .fontSize(14)
             .fontWeight(600)
-            .fontColor('#757575')
+            .fontColor(AppConfig.getTheme().textSecondary)
             .alignSelf(ItemAlign.Center)
           Column() {
             Text(formatTime($.timer.mo3))
               .fontSize(18)
               .fontWeight(600)
-              .fontColor('#1A1A1A')
+              .fontColor(AppConfig.getTheme().textPrimary)
               .fontFamily('monospace')
           }
           .alignItems(HorizontalAlign.Start)
         }
         .alignItems(VerticalAlign.Center)
         .padding({ left: 12, right: 12, top: 8, bottom: 8 })
-        .backgroundColor('#F5F5F5')
+        .backgroundColor(AppConfig.getTheme().background)
         .borderRadius(8)
         Row({ space: 12 }) {
           Text('AO5')
             .fontSize(14)
             .fontWeight(600)
-            .fontColor('#757575')
+            .fontColor(AppConfig.getTheme().textSecondary)
             .alignSelf(ItemAlign.Center)
           Column() {
             Text(formatTime($.timer.ao5))
               .fontSize(18)
               .fontWeight(600)
-              .fontColor('#1A1A1A')
+              .fontColor(AppConfig.getTheme().textPrimary)
               .fontFamily('monospace')
           }
           .alignItems(HorizontalAlign.Start)
         }
         .alignItems(VerticalAlign.Center)
         .padding({ left: 12, right: 12, top: 8, bottom: 8 })
-        .backgroundColor('#F5F5F5')
+        .backgroundColor(AppConfig.getTheme().background)
         .borderRadius(8)
       }
       .width('100%')
@@ -237,7 +239,7 @@ export function TopTimer($: TimerParams) {
   }
   .width('100%')
   .height('50%')
-  .backgroundColor(Color.White)
+  .backgroundColor(AppConfig.getTheme().cardBackground)
   .onClick(() => {
     if (!$.opponentTimer.isRunning && !$.timer.isRunning) {
       $.timer.start()
@@ -269,15 +271,15 @@ function formatTime(time: number): string {
 export function BottomTimer($: TimerParams) {
   Stack() {
     Column() {
-      Text('P2')
+      Text(AppConfig.player2.name)
         .fontSize(32)
         .fontWeight(700)
-        .fontColor('#4ECDC4')
+        .fontColor(AppConfig.player2.color)
         .margin({ bottom: 8 })
       Text(formatTime($.timer.time))
         .fontSize(56)
         .fontWeight(700)
-        .fontColor('#1A1A1A')
+        .fontColor(AppConfig.getTheme().textPrimary)
         .fontFamily('monospace')
         .letterSpacing(2)
       Column({ space: 8 }) {
@@ -285,39 +287,39 @@ export function BottomTimer($: TimerParams) {
           Text('MO3')
             .fontSize(14)
             .fontWeight(600)
-            .fontColor('#757575')
+            .fontColor(AppConfig.getTheme().textSecondary)
             .alignSelf(ItemAlign.Center)
           Column() {
             Text(formatTime($.timer.mo3))
               .fontSize(18)
               .fontWeight(600)
-              .fontColor('#1A1A1A')
+              .fontColor(AppConfig.getTheme().textPrimary)
               .fontFamily('monospace')
           }
           .alignItems(HorizontalAlign.Start)
         }
         .alignItems(VerticalAlign.Center)
         .padding({ left: 12, right: 12, top: 8, bottom: 8 })
-        .backgroundColor('#F5F5F5')
+        .backgroundColor(AppConfig.getTheme().background)
         .borderRadius(8)
         Row({ space: 12 }) {
           Text('AO5')
             .fontSize(14)
             .fontWeight(600)
-            .fontColor('#757575')
+            .fontColor(AppConfig.getTheme().textSecondary)
             .alignSelf(ItemAlign.Center)
           Column() {
             Text(formatTime($.timer.ao5))
               .fontSize(18)
               .fontWeight(600)
-              .fontColor('#1A1A1A')
+              .fontColor(AppConfig.getTheme().textPrimary)
               .fontFamily('monospace')
           }
           .alignItems(HorizontalAlign.Start)
         }
         .alignItems(VerticalAlign.Center)
         .padding({ left: 12, right: 12, top: 8, bottom: 8 })
-        .backgroundColor('#F5F5F5')
+        .backgroundColor(AppConfig.getTheme().background)
         .borderRadius(8)
       }
       .width('100%')
@@ -340,7 +342,7 @@ export function BottomTimer($: TimerParams) {
   }
   .width('100%')
   .height('50%')
-  .backgroundColor(Color.White)
+  .backgroundColor(AppConfig.getTheme().cardBackground)
   .onClick(() => {
     if (!$.opponentTimer.isRunning && !$.timer.isRunning) {
       $.timer.start()
