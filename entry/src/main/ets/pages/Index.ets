@@ -3,6 +3,7 @@ import { Statistics } from './Statistics'
 import { Settings } from './Settings'
 import { AppConfig } from '../common/AppConfig'
 import { DeviceAdapter, DeviceType } from '../common/DeviceAdapter'
+import { FlowControl } from '../common/FlowControl'
 import { BusinessError } from '@kit.BasicServicesKit'
 
 @Entry
@@ -56,16 +57,19 @@ struct Index {
 
   @Builder
   BottomControls() {
-    Row({ space: DeviceAdapter.getLayoutConfig().spacing }) {
-      Column({ space: 4 }) {
-        Text(`${AppConfig.player1.name}: ${this.score.p1Win}`)
-          .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
-          .fontWeight(500)
-          .fontColor(AppConfig.getTheme().textPrimary)
-        Text(`${AppConfig.player2.name}: ${this.score.p2Win}`)
-          .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
-          .fontWeight(500)
-          .fontColor(AppConfig.getTheme().textPrimary)
+    Column({ space: 8 }) {
+      FlowControl()
+      
+      Row({ space: DeviceAdapter.getLayoutConfig().spacing }) {
+        Column({ space: 4 }) {
+          Text(`${AppConfig.player1.name}: ${this.score.p1Win}`)
+            .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
+            .fontWeight(500)
+            .fontColor(AppConfig.getTheme().textPrimary)
+          Text(`${AppConfig.player2.name}: ${this.score.p2Win}`)
+            .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
+            .fontWeight(500)
+            .fontColor(AppConfig.getTheme().textPrimary)
         Text(`Tie: ${this.score.ties}`)
           .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
           .fontWeight(500)
@@ -90,16 +94,17 @@ struct Index {
         .onClick(() => {
           this.showStatistics = true
         })
-      Button('Settings')
-        .height(DeviceAdapter.getLayoutConfig().buttonHeight)
-        .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
-        .fontWeight(500)
-        .backgroundColor('#9C27B0')
-        .onClick(() => {
-          this.showSettings = true
-        })
+        Button('Settings')
+          .height(DeviceAdapter.getLayoutConfig().buttonHeight)
+          .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
+          .fontWeight(500)
+          .backgroundColor('#9C27B0')
+          .onClick(() => {
+            this.showSettings = true
+          })
+      }
+      .padding({ left: DeviceAdapter.getLayoutConfig().padding, right: DeviceAdapter.getLayoutConfig().padding, bottom: DeviceAdapter.getLayoutConfig().padding })
     }
-    .padding({ left: DeviceAdapter.getLayoutConfig().padding, right: DeviceAdapter.getLayoutConfig().padding, bottom: DeviceAdapter.getLayoutConfig().padding })
   }
 
   @Builder

@@ -11,6 +11,15 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "permission_distributed_datasync_reason",
+      "value": "用于跨设备数据同步，实现应用状态流转"
+    },
+    {
+
+      "name": "permission_access_service_dm_reason",
+      "value": "用于访问设备管理服务，实现设备连接和流转"
     }
   ]
 }

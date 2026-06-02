@@ -43,8 +43,8 @@ export class DeviceAdapter {
   static initialize(): void {
     try {
       const displayInfo = display.getDefaultDisplaySync()
-      DeviceAdapter.screenWidth = px2vp(displayInfo.width)
-      DeviceAdapter.screenHeight = px2vp(displayInfo.height)
+      DeviceAdapter.screenWidth = displayInfo.width / displayInfo.densityPixels
+      DeviceAdapter.screenHeight = displayInfo.height / displayInfo.densityPixels
       DeviceAdapter.density = displayInfo.densityPixels
       DeviceAdapter.currentDevice = DeviceAdapter.detectDeviceType()
     } catch (error) {

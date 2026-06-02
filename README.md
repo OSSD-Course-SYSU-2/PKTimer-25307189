@@ -43,6 +43,30 @@ PK Timer 支持 HarmonyOS 多设备部署，一套代码可在以下设备上运
 
 **详细文档：** 参见 [MULTI_DEVICE_DEPLOYMENT.md](./MULTI_DEVICE_DEPLOYMENT.md)
 
+### 🔄 自由流转
+
+PK Timer 支持 HarmonyOS 分布式能力，实现应用在不同设备间的无缝迁移：
+
+**核心能力：**
+- **设备发现** - 自动发现同一网络下的 HarmonyOS 设备
+- **状态迁移** - 完整的应用状态保存和恢复
+- **流转控制** - 一键流转到目标设备，支持拉回操作
+- **数据同步** - 计时器、比分、配置自动同步
+
+**流转内容：**
+- ✅ 计时器状态（时间、运行状态、历史成绩）
+- ✅ 比分数据（胜场、平局、比赛历史）
+- ✅ 统计数据（MO3、AO5、个人最佳）
+- ✅ 应用配置（选手名称、颜色、主题）
+
+**使用场景：**
+- 📱→📟 手机到平板：大屏查看统计数据
+- 📟→📺 平板到电视：大屏展示比赛结果
+- 📱→⌚ 手机到手表：快速查看计时结果
+- 📱→🚗 手机到车机：驾驶安全操作
+
+**详细文档：** 参见 [SEAMLESS_FLOW.md](./SEAMLESS_FLOW.md)
+
 ### 核心功能
 - **双人竞技计时**：屏幕上下分区，分别控制P1和P2的计时器
 - **实时统计**：
@@ -81,6 +105,7 @@ PK Timer 支持 HarmonyOS 多设备部署，一套代码可在以下设备上运
 - **运行平台**：HarmonyOS
 - **最小SDK版本**：6.0.2(22)
 - **目标SDK版本**：6.0.2(22)
+- **分布式能力**：设备发现、状态迁移、数据同步
 
 ## 项目结构
 
@@ -94,15 +119,19 @@ PKTimer/
 │   │   └── main/
 │   │       ├── ets/
 │   │       │   ├── common/
-│   │       │   │   ├── AppConfig.ets              # 全局配置管理
-│   │       │   │   ├── DeviceAdapter.ets          # 设备适配工具类
-│   │       │   │   └── ResponsiveLayout.ets       # 响应式布局系统
+│   │       │   │   ├── AppConfig.ets                    # 全局配置管理
+│   │       │   │   ├── DeviceAdapter.ets                # 设备适配工具类
+│   │       │   │   ├── ResponsiveLayout.ets             # 响应式布局系统
+│   │       │   │   ├── DistributedDataManager.ets       # 分布式数据管理
+│   │       │   │   ├── DeviceConnectionManager.ets      # 设备连接管理
+│   │       │   │   ├── MigrationManager.ets             # 迁移管理
+│   │       │   │   └── FlowControl.ets                  # 流转控制组件
 │   │       │   ├── entryability/
-│   │       │   │   └── EntryAbility.ets           # 应用入口
+│   │       │   │   └── EntryAbility.ets                 # 应用入口
 │   │       │   ├── entrybackupability/
-│   │       │   │   └── EntryBackupAbility.ets     # 应用备份扩展能力
+│   │       │   │   └── EntryBackupAbility.ets           # 应用备份扩展能力
 │   │       │   └── pages/
-│   │       │       ├── Index.ets                  # 主页面
+│   │       │       ├── Index.ets                        # 主页面
 │   │       │       ├── Home.ets                   # 计时器组件和逻辑
 │   │       │       ├── Statistics.ets             # 统计分析页面
 │   │       │       └── Settings.ets               # 设置页面
@@ -121,7 +150,8 @@ PKTimer/
 ├── code-linter.json5            # 代码规范配置
 ├── oh-package.json5             # 依赖配置
 ├── README.md                    # 项目说明文档
-└── MULTI_DEVICE_DEPLOYMENT.md   # 多端部署详细文档
+├── MULTI_DEVICE_DEPLOYMENT.md   # 多端部署详细文档
+└── SEAMLESS_FLOW.md             # 自由流转详细文档
 ```
 
 ## 核心文件说明
@@ -147,10 +177,40 @@ PKTimer/
 - 根据断点返回不同的配置值
 - 根据设备类型返回特定的配置值
 
-### 4. EntryAbility.ets
+### 4. DistributedDataManager.ets
+分布式数据管理类，提供：
+- 分布式键值存储（KV Store）
+- 跨设备数据同步
+- 应用状态保存和恢复
+- 数据变更监听
+
+### 5. DeviceConnectionManager.ets
+设备连接管理类，提供：
+- 设备发现和扫描
+- 设备状态管理
+- 设备信息获取
+- 设备连接维护
+
+### 6. MigrationManager.ets
+迁移管理类，提供：
+- 应用状态迁移
+- 流转操作管理
+- 迁移历史记录
+- 回调和通知
+
+### 7. FlowControl.ets
+流转控制 UI 组件，提供：
+- 设备列表展示
+- 流转操作按钮
+- 流转状态提示
+- 设备图标显示
+
+### 8. EntryAbility.ets
 应用的入口文件，负责：
 - 初始化设备适配器
 - 初始化响应式布局管理器
+- 初始化迁移管理器
+- 处理分布式能力回调
 - 加载主页面 `pages/Index`
 
 ### 3. Index.ets
@@ -306,6 +366,13 @@ PK Timer 支持为不同设备类型构建：
   - 创建响应式布局系统
   - 添加多设备资源配置
   - 配置多设备构建目标
+- ✅ **新增自由流转功能**
+  - 实现分布式数据管理（DistributedDataManager）
+  - 实现设备发现和连接（DeviceConnectionManager）
+  - 实现应用状态迁移（MigrationManager）
+  - 创建流转控制 UI（FlowControl）
+  - 配置分布式权限
+  - 支持跨设备无缝切换
 - ✅ 核心功能完善
   - 双人竞技计时
   - 实时统计分析
