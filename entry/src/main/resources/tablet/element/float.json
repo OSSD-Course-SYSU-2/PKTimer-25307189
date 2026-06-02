@@ -1,0 +1,24 @@
+{
+  "float": [
+    {
+      "name": "page_text_font_size",
+      "value": "65fp"
+    },
+    {
+      "name": "timer_font_size",
+      "value": "72fp"
+    },
+    {
+      "name": "button_height",
+      "value": "48vp"
+    },
+    {
+      "name": "button_font_size",
+      "value": "16fp"
+    },
+    {
+      "name": "content_padding",
+      "value": "24vp"
+    }
+  ]
+}

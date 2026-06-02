@@ -25,6 +25,24 @@ PK Timer是一个专为竞技场景设计的计时器应用，将屏幕分为上
 
 ## 功能特性
 
+### 🚀 一次开发，多端部署
+
+PK Timer 支持 HarmonyOS 多设备部署，一套代码可在以下设备上运行：
+
+- 📱 **手机 (Phone)** - 完整功能，Stack 导航模式
+- 📟 **平板 (Tablet)** - 大屏优化，Tabs 导航模式，多列布局
+- 📺 **电视 (TV)** - 超大字体，遥控器操作优化
+- ⌚ **手表 (Wearable)** - 精简界面，圆形屏幕适配
+- 🚗 **车机 (Car)** - 驾驶安全优化，大按钮易点击
+
+**技术实现：**
+- 自动设备类型检测
+- 响应式布局系统（断点：sm/md/lg/xl）
+- 设备特定资源配置
+- 智能UI组件适配
+
+**详细文档：** 参见 [MULTI_DEVICE_DEPLOYMENT.md](./MULTI_DEVICE_DEPLOYMENT.md)
+
 ### 核心功能
 - **双人竞技计时**：屏幕上下分区，分别控制P1和P2的计时器
 - **实时统计**：
@@ -76,30 +94,34 @@ PKTimer/
 │   │   └── main/
 │   │       ├── ets/
 │   │       │   ├── common/
-│   │       │   │   └── AppConfig.ets           # 全局配置管理
+│   │       │   │   ├── AppConfig.ets              # 全局配置管理
+│   │       │   │   ├── DeviceAdapter.ets          # 设备适配工具类
+│   │       │   │   └── ResponsiveLayout.ets       # 响应式布局系统
 │   │       │   ├── entryability/
-│   │       │   │   └── EntryAbility.ets        # 应用入口
+│   │       │   │   └── EntryAbility.ets           # 应用入口
 │   │       │   ├── entrybackupability/
-│   │       │   │   └── EntryBackupAbility.ets  # 应用备份扩展能力
+│   │       │   │   └── EntryBackupAbility.ets     # 应用备份扩展能力
 │   │       │   └── pages/
-│   │       │       ├── Index.ets               # 主页面
-│   │       │       ├── Home.ets                # 计时器组件和逻辑
-│   │       │       ├── Statistics.ets          # 统计分析页面
-│   │       │       └── Settings.ets            # 设置页面
-│   │       ├── resources/                       # 模块资源文件
-│   │       │   └── base/
-│   │       │       ├── element/                # 字符串、颜色等资源
-│   │       │       ├── media/                  # 媒体资源
-│   │       │       └── profile/                # 配置文件
-│   │       └── module.json5                     # 模块配置文件
-│   ├── build-profile.json5    # 模块构建配置
-│   ├── hvigorfile.ts          # 模块编译配置
-│   └── oh-package.json5       # 模块依赖配置
-├── build-profile.json5         # 应用构建配置
-├── hvigorfile.ts              # 应用编译配置
-├── hvigor/                    # 编译配置文件
-├── code-linter.json5          # 代码规范配置
-└── oh-package.json5           # 依赖配置
+│   │       │       ├── Index.ets                  # 主页面
+│   │       │       ├── Home.ets                   # 计时器组件和逻辑
+│   │       │       ├── Statistics.ets             # 统计分析页面
+│   │       │       └── Settings.ets               # 设置页面
+│   │       ├── resources/                         # 模块资源文件
+│   │       │   ├── base/                          # 默认资源（手机）
+│   │       │   ├── tablet/                        # 平板资源
+│   │       │   ├── tv/                            # 电视资源
+│   │       │   └── wearable/                      # 手表资源
+│   │       └── module.json5                       # 模块配置文件
+│   ├── build-profile.json5      # 模块构建配置
+│   ├── hvigorfile.ts            # 模块编译配置
+│   └── oh-package.json5         # 模块依赖配置
+├── build-profile.json5          # 应用构建配置（支持多设备）
+├── hvigorfile.ts                # 应用编译配置
+├── hvigor/                      # 编译配置文件
+├── code-linter.json5            # 代码规范配置
+├── oh-package.json5             # 依赖配置
+├── README.md                    # 项目说明文档
+└── MULTI_DEVICE_DEPLOYMENT.md   # 多端部署详细文档
 ```
 
 ## 核心文件说明
@@ -111,8 +133,25 @@ PKTimer/
 - 主题颜色配置（背景、文字、按钮等）
 - 配置的持久化和更新
 
-### 2. EntryAbility.ets
-应用的入口文件，负责加载主页面 `pages/Index`。
+### 2. DeviceAdapter.ets
+设备适配工具类，提供：
+- 自动检测设备类型（Phone、Tablet、TV、Wearable、Car）
+- 获取屏幕尺寸和像素密度
+- 提供响应式布局配置（字体大小、按钮高度、间距等）
+- 设备特定的尺寸缩放
+- 断点系统（sm/md/lg/xl）
+
+### 3. ResponsiveLayout.ets
+响应式布局系统，提供：
+- 响应式布局管理器
+- 根据断点返回不同的配置值
+- 根据设备类型返回特定的配置值
+
+### 4. EntryAbility.ets
+应用的入口文件，负责：
+- 初始化设备适配器
+- 初始化响应式布局管理器
+- 加载主页面 `pages/Index`
 
 ### 3. Index.ets
 主页面组件，包含：
@@ -206,6 +245,41 @@ PKTimer/
 3. 连接HarmonyOS设备或启动模拟器
 4. 点击Run按钮运行应用
 
+### 多设备构建
+
+PK Timer 支持为不同设备类型构建：
+
+1. **选择构建目标**
+   - 打开 `Build` → `Select Build Target`
+   - 选择目标设备类型：
+     - `phone` - 手机版本
+     - `tablet` - 平板版本
+     - `tv` - 电视版本
+     - `wearable` - 手表版本
+     - `car` - 车机版本
+
+2. **运行特定设备版本**
+   - 选择对应设备类型的模拟器或真机
+   - 点击运行按钮
+
+3. **命令行构建**（可选）
+   ```bash
+   # 构建手机版本
+   hvigorw assembleHap --mode module -p product=phone
+   
+   # 构建平板版本
+   hvigorw assembleHap --mode module -p product=tablet
+   
+   # 构建电视版本
+   hvigorw assembleHap --mode module -p product=tv
+   
+   # 构建手表版本
+   hvigorw assembleHap --mode module -p product=wearable
+   
+   # 构建车机版本
+   hvigorw assembleHap --mode module -p product=car
+   ```
+
 ## 依赖项
 
 ```json5
@@ -222,3 +296,18 @@ PKTimer/
 项目包含以下测试文件：
 - `entry/src/test/LocalUnit.test.ets` - 本地单元测试
 - `entry/src/ohosTest/ets/test/Ability.test.ets` - UI测试
+
+## 更新日志
+
+### v1.0.0 (2026-06-02)
+- ✅ **新增多设备部署支持**
+  - 支持 Phone、Tablet、TV、Wearable、Car 五种设备类型
+  - 实现设备适配层（DeviceAdapter）
+  - 创建响应式布局系统
+  - 添加多设备资源配置
+  - 配置多设备构建目标
+- ✅ 核心功能完善
+  - 双人竞技计时
+  - 实时统计分析
+  - 个性化设置
+  - 深色/浅色主题

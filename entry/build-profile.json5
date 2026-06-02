@@ -24,10 +24,31 @@
   ],
   "targets": [
     {
-      "name": "default"
+      "name": "default",
+      "runtimeOS": "HarmonyOS"
     },
     {
       "name": "ohosTest",
+    },
+    {
+      "name": "phone",
+      "runtimeOS": "HarmonyOS"
+    },
+    {
+      "name": "tablet",
+      "runtimeOS": "HarmonyOS"
+    },
+    {
+      "name": "tv",
+      "runtimeOS": "HarmonyOS"
+    },
+    {
+      "name": "wearable",
+      "runtimeOS": "HarmonyOS"
+    },
+    {
+      "name": "car",
+      "runtimeOS": "HarmonyOS"
     }
   ]
 }
