@@ -214,8 +214,7 @@ export class DeviceAdapter {
   }
 
   static shouldShowBottomControls(): boolean {
-    const deviceType = DeviceAdapter.getDeviceType()
-    return deviceType !== DeviceType.TV
+    return true
   }
 
   static getMaxContentWidth(): number {
@@ -224,11 +223,11 @@ export class DeviceAdapter {
     
     switch (deviceType) {
       case DeviceType.TABLET:
-        return Math.min(screenWidth * 0.8, 1200)
+        return screenWidth
       case DeviceType.TV:
-        return 1400
+        return screenWidth
       case DeviceType.CAR:
-        return screenWidth * 0.9
+        return screenWidth
       default:
         return screenWidth
     }

@@ -220,10 +220,10 @@ export function TopTimer($: TimerParams) {
         .borderRadius(8)
       }
       .width('100%')
-      .alignItems(HorizontalAlign.Start)
+      .alignItems(HorizontalAlign.Center)
     }
     .width('100%')
-    .alignItems(HorizontalAlign.Start)
+    .alignItems(HorizontalAlign.Center)
     .padding(24)
     if ($.score.lastWinner === 'p1') {
       Column({ space: 12 }) {
@@ -238,7 +238,7 @@ export function TopTimer($: TimerParams) {
     }
   }
   .width('100%')
-  .height('50%')
+  .height('100%')
   .backgroundColor(AppConfig.getTheme().cardBackground)
   .onClick(() => {
     if (!$.opponentTimer.isRunning && !$.timer.isRunning) {
@@ -323,10 +323,10 @@ export function BottomTimer($: TimerParams) {
         .borderRadius(8)
       }
       .width('100%')
-      .alignItems(HorizontalAlign.Start)
+      .alignItems(HorizontalAlign.Center)
     }
     .width('100%')
-    .alignItems(HorizontalAlign.Start)
+    .alignItems(HorizontalAlign.Center)
     .padding(24)
     if ($.score.lastWinner === 'p2') {
       Column({ space: 12 }) {
@@ -341,7 +341,7 @@ export function BottomTimer($: TimerParams) {
     }
   }
   .width('100%')
-  .height('50%')
+  .height('100%')
   .backgroundColor(AppConfig.getTheme().cardBackground)
   .onClick(() => {
     if (!$.opponentTimer.isRunning && !$.timer.isRunning) {

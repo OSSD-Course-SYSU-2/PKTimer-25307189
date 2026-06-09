@@ -17,26 +17,31 @@ struct Index {
 
   build() {
     Stack() {
-      Navigation() {
+      Column() {
+        Row() {
+          Text('PK Timer')
+            .fontSize(20)
+            .fontWeight(600)
+            .fontColor(AppConfig.getTheme().textPrimary)
+            .padding({ left: 16, top: 12, bottom: 12 })
+        }
+        .width('100%')
+        .backgroundColor(AppConfig.getTheme().cardBackground)
+        
         Stack({ alignContent: Alignment.Bottom }) {
-          Column({ space: 0 }) {
-            TopTimer({ timer: this.timer1, opponentTimer: this.timer2, score: this.score })
-            Divider()
-              .color('#E0E0E0')
-              .strokeWidth(1)
-            BottomTimer({ timer: this.timer2, opponentTimer: this.timer1, score: this.score })
+          if (DeviceAdapter.getDeviceType() === DeviceType.TABLET || 
+              DeviceAdapter.getDeviceType() === DeviceType.TV) {
+            this.TabletLayout()
+          } else {
+            this.PhoneLayout()
           }
-          .width('100%')
-          .height('100%')
-          .backgroundColor(AppConfig.getTheme().background)
-          .padding({ top: DeviceAdapter.getLayoutConfig().padding })
           
           if (DeviceAdapter.shouldShowBottomControls()) {
             this.BottomControls()
           }
         }
         .width('100%')
-        .height('100%')
+        .layoutWeight(1)
         .bindSheet(this.showSettings, this.SettingsSheet, {
           height: DeviceAdapter.getDeviceType() === DeviceType.WEARABLE ? '80%' : 600,
           onDisappear: () => {
@@ -44,8 +49,8 @@ struct Index {
           }
         })
       }
-      .title('PK Timer')
-      .titleMode(NavigationTitleMode.Mini)
+      .width('100%')
+      .height('100%')
 
       if (this.showStatistics) {
         this.StatisticsPanel()
@@ -53,6 +58,57 @@ struct Index {
     }
     .width('100%')
     .height('100%')
+  }
+  
+  @Builder
+  PhoneLayout() {
+    Column({ space: 0 }) {
+      Column() {
+        TopTimer({ timer: this.timer1, opponentTimer: this.timer2, score: this.score })
+      }
+      .width('100%')
+      .height('50%')
+      
+      Divider()
+        .color('#E0E0E0')
+        .strokeWidth(2)
+      
+      Column() {
+        BottomTimer({ timer: this.timer2, opponentTimer: this.timer1, score: this.score })
+      }
+      .width('100%')
+      .height('50%')
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundColor(AppConfig.getTheme().background)
+  }
+  
+  @Builder
+  TabletLayout() {
+    Row() {
+      Column() {
+        TopTimer({ timer: this.timer1, opponentTimer: this.timer2, score: this.score })
+      }
+      .layoutWeight(1)
+      .height('100%')
+      .backgroundColor(AppConfig.getTheme().background)
+      
+      Divider()
+        .vertical(true)
+        .color('#E0E0E0')
+        .strokeWidth(2)
+      
+      Column() {
+        BottomTimer({ timer: this.timer2, opponentTimer: this.timer1, score: this.score })
+      }
+      .layoutWeight(1)
+      .height('100%')
+      .backgroundColor(AppConfig.getTheme().background)
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundColor(AppConfig.getTheme().background)
   }
 
   @Builder
@@ -70,12 +126,12 @@ struct Index {
             .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
             .fontWeight(500)
             .fontColor(AppConfig.getTheme().textPrimary)
-        Text(`Tie: ${this.score.ties}`)
-          .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
-          .fontWeight(500)
-          .fontColor(AppConfig.getTheme().textPrimary)
-      }
-      .alignItems(HorizontalAlign.Start)
+          Text(`Tie: ${this.score.ties}`)
+            .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
+            .fontWeight(500)
+            .fontColor(AppConfig.getTheme().textPrimary)
+        }
+        .alignItems(HorizontalAlign.Start)
       Button('Reset')
         .height(DeviceAdapter.getLayoutConfig().buttonHeight)
         .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
@@ -94,14 +150,14 @@ struct Index {
         .onClick(() => {
           this.showStatistics = true
         })
-        Button('Settings')
-          .height(DeviceAdapter.getLayoutConfig().buttonHeight)
-          .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
-          .fontWeight(500)
-          .backgroundColor('#9C27B0')
-          .onClick(() => {
-            this.showSettings = true
-          })
+      Button('Settings')
+        .height(DeviceAdapter.getLayoutConfig().buttonHeight)
+        .fontSize(DeviceAdapter.getLayoutConfig().buttonFontSize)
+        .fontWeight(500)
+        .backgroundColor('#9C27B0')
+        .onClick(() => {
+          this.showSettings = true
+        })
       }
       .padding({ left: DeviceAdapter.getLayoutConfig().padding, right: DeviceAdapter.getLayoutConfig().padding, bottom: DeviceAdapter.getLayoutConfig().padding })
     }
